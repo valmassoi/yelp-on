@@ -14,26 +14,21 @@ export default class PlaceCard extends React.Component {
     }
   }
 
-  componentWillMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
-
   render(){
     let { name: place, image, description, count: people } = this.state
+    let { data } = this.props
     let imageStyle = {
       float: 'left', marginRight: '20px',
       width: '100px', height: '100px'
     }
     return(
         <div class="panel panel-default placecard">
-        <div class="panel-heading">{place} - {people} going</div>
+        <div class="panel-heading">{data.name} - {people} going
+          <div style={{float:'right'}}>{data.rating}</div>
+        </div>
         <div class="panel-body">
-          <img src={image} style={imageStyle}/>
-          <p> {description} </p>
+          <img src={data.image_url} style={imageStyle}/>
+          <p> {data.snippet_text} </p>
           <button class="btn btn-primary btn-sm">I'm in!</button>
         </div>
       </div>

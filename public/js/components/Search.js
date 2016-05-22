@@ -1,7 +1,7 @@
 import React from "react"
 import { IndexLink, Link } from "react-router"
 import $ from 'jquery'
-//TODO move to flux
+import * as YelpAction from '../actions/YelpAction'
 
 export default class Search extends React.Component {
   constructor() {
@@ -28,10 +28,7 @@ export default class Search extends React.Component {
   search(e) {
     e.preventDefault(e)
     let { term, location } = this.state
-    let url = `http://192.168.1.108:8081/api/GET/yelp/${term}/${location}`
-    $.getJSON(url, (data) => {//TODO move to flux
-      console.log(data.businesses);
-    })
+    YelpAction.getPlaces(term, location)
   }
 
   render(){

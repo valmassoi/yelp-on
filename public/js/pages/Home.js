@@ -1,28 +1,30 @@
-import React from "react"
-import { Link } from "react-router"
+import React from 'react'
+import { Link } from 'react-router'
 import _ from 'lodash'
-import PlaceCard from "../components/PlaceCard"
-import Search from "../components/Search"
+import PlaceCard from '../components/PlaceCard'
+import Search from '../components/Search'
+import YelpStore from '../stores/YelpStore'
 
 export default class Home extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-
-      }
+      places: [ ]
+    }
   }
 
   componentWillMount() {
-
+    YelpStore.on("change", this.yelp.bind(this))
   }
 
   componentWillUnmount() {
-
+    YelpStore.removeAllListeners("change")
   }
 
-  componentWillReceiveProps(nextProps) {
-
+  yelp() {
+    let places = YelpStore.getPlaces()
+    this.setState({ places })
   }
 
   render() {
@@ -32,9 +34,13 @@ export default class Home extends React.Component {
         <Search />
         <div class="container-fluid" style={{marginTop: '20px'}}>
           <div class="row">
-            <div class="col-sm-12 col-md-6"> <PlaceCard /> </div>
-            <div class="col-sm-12 col-md-6"> <PlaceCard /> </div>
-            <div class="col-sm-12 col-md-6"> <PlaceCard /> </div>
+          {this.state.places.map( (place, i) => {
+               return (
+                <div class="col-sm-12 col-md-6" key={"placecard-div-"+i}>
+                  <PlaceCard data={place} />
+                </div>
+               )
+             })}
           </div>
         </div>
       </div>
