@@ -1,0 +1,6 @@
+## Yelp API token/secret
+
+CONSUMER_KEY=
+CONSUMER_SECRET=
+TOKEN=
+TOKEN_SECRET=
