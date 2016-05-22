@@ -9,7 +9,8 @@ export default class PlaceCard extends React.Component {
     this.state = {
       name: "test",
       description: "some description loreum ispum",
-      image: "https://s3-media3.fl.yelpcdn.com/bphoto/z4ptM-mcK2NrVEViETOjjg/ms.jpg"
+      image: "https://s3-media3.fl.yelpcdn.com/bphoto/z4ptM-mcK2NrVEViETOjjg/ms.jpg",
+      count: 1
     }
   }
 
@@ -22,17 +23,17 @@ export default class PlaceCard extends React.Component {
   }
 
   render(){
-    let { name, image, description } = this.state
+    let { name: place, image, description, count: people } = this.state
     let imageStyle = {
       float: 'left', marginRight: '20px',
       width: '100px', height: '100px'
     }
     return(
         <div class="panel panel-default placecard">
-        <div class="panel-heading">{name}</div>
+        <div class="panel-heading">{place} - {people} going</div>
         <div class="panel-body">
           <img src={image} style={imageStyle}/>
-          <p style={{width: '300px'}}> {description} </p>
+          <p> {description} </p>
           <button class="btn btn-primary btn-sm">I'm in!</button>
         </div>
       </div>

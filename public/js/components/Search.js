@@ -1,7 +1,7 @@
 import React from "react"
 import { IndexLink, Link } from "react-router"
-
-// import createHashHistory from 'history/lib/createHashHistory'
+import $ from 'jquery'
+//TODO move to flux
 
 export default class Search extends React.Component {
   constructor() {
@@ -27,6 +27,10 @@ export default class Search extends React.Component {
   search(e) {
     e.preventDefault(e)
     console.log("search yelp", this.state.location);
+    let url = `http://192.168.1.108:8081/api/GET/yelp/${this.state.location}`
+    $.getJSON(url, (data) => {//TODO move to flux
+      console.log(data);
+    })
   }
 
   render(){
