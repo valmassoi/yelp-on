@@ -1,0 +1,55 @@
+.centered
+  margin: 0px auto
+
+.title
+  margin-top: 64px
+  padding: 50px
+  background: linear-gradient(to bottom, rgba(73,155,234,1) 0%, rgba(000,120,220,1) 100%) fixed
+
+.title
+  h1, h2, h3, h4, h5, h6, p
+    color: white !important
+
+.polls
+  h1, h2, h3, h4, h5, h6, p
+    color: #444444
+  margin: 50px 10px
+  padding: 30px
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5)
+
+.form-container
+  max-width: 500px
+  margin: 50px 10px
+  padding: 30px
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4)
+
+@media (min-width: 520px)
+  .form-container
+    margin-right: auto
+    margin-left: auto
+
+.alerts
+  position: fixed
+  top: 85px
+  right: 30px
+  float: right
+  z-index: 10
+
+.vote-now
+  position: absolute
+  right: 50px
+
+@media (max-width: 520px)
+  .alerts
+    left: 7px
+  h1
+    font-size: 36px
+  h3
+    font-size: 24px
+
+@media (max-width: 767px)
+  nav.navbar
+    overflow-y: auto
+
+.hidden
+  display: none !important
