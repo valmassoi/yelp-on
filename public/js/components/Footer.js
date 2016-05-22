@@ -9,7 +9,8 @@ export default class Footer extends React.Component {
     }
     return(
       <div style={footer}>
-        <a href="https://github.com/valmassoi/yelp-on" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> github repo</a>
+        <a href="https://github.com/valmassoi/yelp-on" target="_blank"><i class="fa fa-github" aria-hidden="true"></i> github repo </a>
+        <p style={{color:'grey', fontSize:'10px', marginTop:'10px'}}> data from <a href="https://yelp.com" target="_blank">yelp</a> </p>
       </div>
     )
   }

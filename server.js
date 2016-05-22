@@ -27,8 +27,8 @@ const yelp = new Yelp({
   token_secret: process.env.TOKEN_SECRET
 })
 
-function searchYelp(location, callback) {
-  yelp.search({ term: 'food', location })
+function searchYelp(term, location, callback) {
+  yelp.search({ term, location })
   .then(data => {
     callback(data)
   })
@@ -37,9 +37,9 @@ function searchYelp(location, callback) {
   })
 }
 
-app.get('/api/GET/yelp/:location', (req, res) => {
+app.get('/api/GET/yelp/:term/:location', (req, res) => {
   res.writeHead(200, { 'Content-Type':  'application/json' })
-  searchYelp(req.params.location, (data) => {
+  searchYelp(req.params.term, req.params.location, (data) => {
     res.end(JSON.stringify(data))
   })
 })

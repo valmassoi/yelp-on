@@ -7,6 +7,7 @@ export default class Search extends React.Component {
   constructor() {
     super()
     this.state = {
+      term: "food",
       location: ""
     }
   }
@@ -26,10 +27,10 @@ export default class Search extends React.Component {
 
   search(e) {
     e.preventDefault(e)
-    console.log("search yelp", this.state.location);
-    let url = `http://192.168.1.108:8081/api/GET/yelp/${this.state.location}`
+    let { term, location } = this.state
+    let url = `http://192.168.1.108:8081/api/GET/yelp/${term}/${location}`
     $.getJSON(url, (data) => {//TODO move to flux
-      console.log(data);
+      console.log(data.businesses);
     })
   }
 
