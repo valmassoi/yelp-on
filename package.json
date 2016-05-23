@@ -37,6 +37,7 @@
     "history": "^1.17.0",
     "jquery": "^2.2.3",
     "mongodb": "^2.1.18",
+    "node-twitter-api": "^1.7.2",
     "react": "^0.14.8",
     "react-dom": "^0.14.8",
     "react-router": "^1.0.3",
