@@ -7,7 +7,7 @@ export default class Search extends React.Component {
   constructor() {
     super()
     this.state = {
-      term: "food",
+      term: "bars",
       location: ""
     }
   }
@@ -18,6 +18,10 @@ export default class Search extends React.Component {
 
   componentWillUnmount() {
 
+  }
+
+  handleTerm(term) {
+    this.setState({ term })
   }
 
   handleSearchInput(e) {
@@ -40,6 +44,10 @@ export default class Search extends React.Component {
           <div class="form-group" style={{float: 'left', minWidth: '270px'}}>
             <input class="form-control" placeholder="Newport Beach or Zipcode: 92658" type="text" onChange={this.handleSearchInput.bind(this)} />
           </div>
+          <select class="form-control" style={{float: 'left', marginLeft: '7px', width: '130px'}}>
+            <option value="one" onClick={() => this.handleTerm("bars")}>Bars</option>
+            <option value="two" onClick={() => this.handleTerm("food")}>Restaurants</option>
+          </select>
           <button type="submit" class="btn btn-default" style={{marginLeft: '7px', width: '100px'}}>Submit</button>
         </form>
       </div>

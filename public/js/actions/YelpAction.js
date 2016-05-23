@@ -8,6 +8,5 @@ export function getPlaces(term, location) {
   $.getJSON(url, (data) => {
     console.log(data.businesses);
     dispatcher.dispatch({type: "GOT_PLACES", places: data.businesses})
-    console.log(data.businesses[0].name);
   })
 }
