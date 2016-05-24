@@ -25,8 +25,10 @@ export default class PlaceCard extends React.Component {
   twitterAuth() {
     let url = 'http://192.168.1.108:8081/api/GET/twitterauth'//TODO change url
     $.getJSON(url, (data) => {//TODO MOVE TO ACTOIN
-      console.log(data.tokenUrl);
-      window.location.href = data.tokenUrl
+      if(data.requestToken)
+        console.log(data.requestToken);
+      if(data.tokenUrl)
+        window.location.href = data.tokenUrl
     })
   }
 
