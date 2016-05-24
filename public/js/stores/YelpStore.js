@@ -7,10 +7,15 @@ class YelpStore extends EventEmitter {
   constructor() {
     super()
     this.places
+    this.goers
   }
 
   getPlaces() {
     return this.places
+  }
+
+  getGoers() {
+    return this.goers
   }
 
   handleActions(action) {
@@ -19,6 +24,11 @@ class YelpStore extends EventEmitter {
       case "GOT_PLACES": {
         this.places = action.places
         this.emit("change")
+        break
+      }
+      case "GOT_GOERS": {
+        this.goers = action.goers
+        this.emit("goers_change")
         break
       }
     }

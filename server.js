@@ -47,10 +47,6 @@ function searchYelp(term, location, callback) {
 
 function changeGoing(location, userToken, increment, count, callback) {
 console.log(location, userToken, increment, count);
-  // let place = {
-  //   id: location,
-  //   count
-  // }
 
   mongo.connect(dbUrl, (err, db) => {
     if (err) throw err
@@ -62,14 +58,21 @@ console.log(location, userToken, increment, count);
         $setOnInsert: {
           id: location
         },
-        $push: { users: userToken }
+      },
+      {
+        $cond: {
+          if: (increment==1),
+          then: {$push: { users: userToken }},
+          else: {$pull: { users: userToken }}
+        }
       },
       {'upsert':true},
       (err, data) => {
         if (err) throw err
         callback()
         db.close()
-      })
+      }
+    )
   })
 }
 

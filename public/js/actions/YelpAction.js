@@ -11,3 +11,13 @@ export function getPlaces(term, location) {
       dispatcher.dispatch({type: "GOT_PLACES", places: data.businesses})
   })
 }
+
+export function getGoers() {
+  //TODO FETCHING
+  let url = `${local}/api/GET/goers`
+  $.getJSON(url, (data) => {
+    console.log("got goers:", data);
+    if(data)
+      dispatcher.dispatch({type: "GOT_GOERS", goers: data})
+  })
+}

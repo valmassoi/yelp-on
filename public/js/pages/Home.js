@@ -4,27 +4,31 @@ import _ from 'lodash'
 import PlaceCard from '../components/PlaceCard'
 import Search from '../components/Search'
 import YelpStore from '../stores/YelpStore'
-import $ from 'jquery'//TODO delete when move GET TO action
+import * as YelpAction from '../actions/YelpAction'
 
 export default class Home extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      places: [ ]
+      places: [ ],
+      goers: [ ]
     }
   }
 
   componentWillMount() {
     YelpStore.on("change", this.yelp.bind(this))
-    const url = 'http://192.168.1.108:8081/api/GET/goers'
-    $.getJSON(url, (data) => {
-      console.log(data);
-    })
+    YelpStore.on("goers_change", this.goers.bind(this))
+    YelpAction.getGoers()
   }
 
   componentWillUnmount() {
     YelpStore.removeAllListeners("change")
+  }
+
+  goers() {
+    let goers = YelpStore.getGoers()
+    this.setState({ goers })
   }
 
   yelp() {
@@ -32,17 +36,32 @@ export default class Home extends React.Component {
     this.setState({ places })
   }
 
-  render() {
+  getCount(place) {
+    let newPlace = Object.assign({}, place)
+    newPlace.goers = 0
+    newPlace.people = [ ]
+    this.state.goers.forEach((goers) =>
+      {
+        if (_.includes(goers, place.id)){
+          newPlace.goers = goers.count
+          newPlace.users = goers.users
+        }
+      }
+    )
+    return newPlace
+  }
 
+  render() {
     return(
       <div>
         <Search />
         <div class="container-fluid" style={{marginTop: '20px'}}>
           <div class="row">
           {this.state.places.map( (place, i) => {
+              let newPlace = this.getCount(place)
                return (
                 <div class="col-sm-12 col-md-6" key={"placecard-div-"+i}>
-                  <PlaceCard data={place} />
+                  <PlaceCard data={newPlace} />
                 </div>
                )
              })}

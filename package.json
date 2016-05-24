@@ -37,6 +37,7 @@
     "fs": "0.0.2",
     "history": "^1.17.0",
     "jquery": "^2.2.3",
+    "lodash": "^4.2.0",
     "mongodb": "^2.1.18",
     "node-twitter-api": "^1.7.2",
     "react": "^0.14.8",

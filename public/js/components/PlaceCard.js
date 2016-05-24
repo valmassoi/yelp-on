@@ -1,5 +1,7 @@
 import React from "react"
 import { IndexLink, Link } from "react-router"
+import _ from 'lodash'
+import YelpStore from '../stores/YelpStore'
 import $ from 'jquery'//TODO MOVE TO ACTION
 
 export default class PlaceCard extends React.Component {
@@ -21,8 +23,17 @@ export default class PlaceCard extends React.Component {
     })
   }
 
+  componentWillMount() {
+    this.setState({ count:this.props.data.goers })
+  }
+
   going(location, user) {
     let { count, rsvp } = this.state//TODO ONLY IF AUTH
+    if(_.includes(this.props.data.users, user)){
+      console.log("user has rsvped", user);
+      rsvp = true
+      //remove user from mongo
+    }
     rsvp ? count-- : count++
     rsvp = !this.state.rsvp
     let increment = rsvp?1:-1
