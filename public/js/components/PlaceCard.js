@@ -12,7 +12,9 @@ export default class PlaceCard extends React.Component {
   }
 
   going(id) {
+
     this.twitterAuth()//TODO ONLY IF NOT AUTH
+
     let { count, rsvp } = this.state//TODO ONLY IF AUTH
     rsvp ? count-- : count++
     rsvp = !this.state.rsvp

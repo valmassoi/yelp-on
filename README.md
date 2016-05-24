@@ -1,5 +1,5 @@
 # yelp-on
-A full stack JavaScript app using `MERN` Stack `MongoDB` + `Express.js` + `React` + `Node.js` +`flux`
+A full stack JavaScript app using `MERN` Stack `MongoDB` + `Express.js` + `React` + `Node.js` + `flux` + `OAuth`
 
 ## Live Demo
 Hosted at https://yelpon.herokuapp.com
