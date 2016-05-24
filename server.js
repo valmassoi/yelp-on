@@ -59,7 +59,10 @@ console.log(location, userToken, increment, count);
       {'id': location},
       {
         $set: { count },
-        $setOnInsert: { id: location }
+        $setOnInsert: {
+          id: location
+        },
+        $push: { users: userToken }
       },
       {'upsert':true},
       (err, data) => {
