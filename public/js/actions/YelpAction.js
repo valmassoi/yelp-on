@@ -7,6 +7,7 @@ export function getPlaces(term, location) {
   let url = `${local}/api/GET/yelp/${term}/${location}`
   $.getJSON(url, (data) => {
     console.log(data.businesses);
-    dispatcher.dispatch({type: "GOT_PLACES", places: data.businesses})
+    if(data.businesses)
+      dispatcher.dispatch({type: "GOT_PLACES", places: data.businesses})
   })
 }

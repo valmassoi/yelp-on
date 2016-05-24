@@ -4,6 +4,7 @@ const express = require('express')
 const http = require('http')
 const mongo = require('mongodb').MongoClient
 const cors = require('cors')
+const bodyParser = require('body-parser')
 const Yelp = require('yelp')
 const twitterAPI = require('node-twitter-api');
 const env = require('dotenv')
@@ -16,11 +17,15 @@ app.use(session({
   requestToken: '',
   requestTokenSecret: '',
   secret: 'somesupersecretstuff',
+  resave: false,//TODO CHECK IF NEEDS TO BE TRUE
+  saveUninitialized: true
 }))
 
 const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost:27018/data'
 
 app.use(cors())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.enable('trust proxy')
 env.load()
 
 const yelp = new Yelp({
@@ -40,14 +45,38 @@ function searchYelp(term, location, callback) {
   })
 }
 
-function changeGoing(user, location) {//TODO
+function changeGoing(location, userToken, increment, count, callback) {
+console.log(location, userToken, increment, count);
+  // let place = {
+  //   id: location,
+  //   count
+  // }
+
   mongo.connect(dbUrl, (err, db) => {
-   if (err) throw err
-   let users = db.collection('users')
-   users.insert(user, (err, data) => {//dont insert, update?
+    if (err) throw err
+    let places = db.collection('places')
+    places.update(
+      {'id': location},
+      {
+        $set: { count },
+        $setOnInsert: { id: location }
+      },
+      {'upsert':true},
+      (err, data) => {
+        if (err) throw err
+        callback()
+        db.close()
+      })
+  })
+}
+
+function getGoers(callback) {
+  mongo.connect(dbUrl, (err, db) => {
+    if (err) throw err
+    let places = db.collection('places')
+    places.find().toArray((err, all) => {
       if (err) throw err
-      let id=JSON.stringify(user._id)
-      callback(user)
+      callback(all)
       db.close()
     })
   })
@@ -129,6 +158,23 @@ app.get('/api/auth/', (req, res) => {
   twitterAccess(req.query.oauth_verifier, (data) => {
     // res.send(JSON.stringify({ data }))
     res.redirect('http://192.168.1.108:8080/')
+  })
+})
+
+app.post('/api/POST/rsvp', (req, res) => {
+  let { location, user, increment, count } = req.body
+  changeGoing(location, user, increment, count, () => {
+    console.log("done");
+  })
+  res.writeHead(200, { 'Content-Type':  'application/json' })
+  res.end('{"success" : "POST success", "status" : 200}');
+})
+
+app.get('/api/GET/goers', (req, res) => {
+  getGoers( data => {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    let json = JSON.stringify(data)
+    res.end(json)
   })
 })
 

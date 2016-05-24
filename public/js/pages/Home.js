@@ -4,6 +4,7 @@ import _ from 'lodash'
 import PlaceCard from '../components/PlaceCard'
 import Search from '../components/Search'
 import YelpStore from '../stores/YelpStore'
+import $ from 'jquery'//TODO delete when move GET TO action
 
 export default class Home extends React.Component {
 
@@ -16,6 +17,10 @@ export default class Home extends React.Component {
 
   componentWillMount() {
     YelpStore.on("change", this.yelp.bind(this))
+    const url = 'http://192.168.1.108:8081/api/GET/goers'
+    $.getJSON(url, (data) => {
+      console.log(data);
+    })
   }
 
   componentWillUnmount() {
