@@ -15,7 +15,7 @@ export default class Search extends React.Component {
   componentWillMount() {
     let term=localStorage.getItem('_yelpon_term'),
         location=localStorage.getItem('_yelpon_location')
-    if(location){
+    if(location) {
       YelpAction.getPlaces(term, location)
       this.setState({ term, location })
     }
@@ -47,6 +47,7 @@ export default class Search extends React.Component {
     let { term, location } = this.state
     localStorage.setItem('_yelpon_location', location)
     YelpAction.getPlaces(term, location)
+    YelpAction.getGoers()
   }
 
   render(){

@@ -37,13 +37,14 @@ export default class Home extends React.Component {
   }
 
   getCount(place) {
+    console.log("new count");
     let newPlace = Object.assign({}, place)
-    newPlace.goers = 0
-    newPlace.people = [ ]
+    newPlace.count = 0
+    newPlace.users = [ ]
     this.state.goers.forEach((goers) =>
       {
         if (_.includes(goers, place.id)){
-          newPlace.goers = goers.count
+          newPlace.count = goers.count
           newPlace.users = goers.users
         }
       }

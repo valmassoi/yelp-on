@@ -45,34 +45,47 @@ function searchYelp(term, location, callback) {
   })
 }
 
-function changeGoing(location, userToken, increment, count, callback) {
-console.log(location, userToken, increment, count);
+function changeGoing(location, userToken, increment, count) {
 
   mongo.connect(dbUrl, (err, db) => {
     if (err) throw err
     let places = db.collection('places')
-    places.update(
-      {'id': location},
-      {
-        $set: { count },
-        $setOnInsert: {
-          id: location
+    if(increment==1){//DRY WITH $cond ?
+      console.log("pushing");
+      places.update(
+        {'id': location},
+        {
+          $set: { count },
+          $push: { users: userToken },
+          $setOnInsert: {
+            id: location
+          }
         },
-      },
-      {
-        $cond: {
-          if: (increment==1),
-          then: {$push: { users: userToken }},
-          else: {$pull: { users: userToken }}
+        {'upsert':true},
+        (err, data) => {
+          if (err) throw err
+          db.close()
         }
-      },
-      {'upsert':true},
-      (err, data) => {
-        if (err) throw err
-        callback()
-        db.close()
-      }
-    )
+      )
+    }
+    else{
+      console.log("pulling");
+      places.update(
+        {'id': location},
+        {
+          $set: { count },
+          $pull: { users: userToken },
+          $setOnInsert: {
+            id: location
+          }
+        },
+        {'upsert':true},
+        (err, data) => {
+          if (err) throw err
+          db.close()
+        }
+      )
+    }
   })
 }
 
@@ -169,9 +182,7 @@ app.get('/api/auth/', (req, res) => {
 
 app.post('/api/POST/rsvp', (req, res) => {
   let { location, user, increment, count } = req.body
-  changeGoing(location, user, increment, count, () => {
-    console.log("done");
-  })
+  changeGoing(location, user, increment, count)
   res.writeHead(200, { 'Content-Type':  'application/json' })
   res.end('{"success" : "POST success", "status" : 200}');
 })

@@ -24,20 +24,24 @@ export default class PlaceCard extends React.Component {
   }
 
   componentWillMount() {
-    this.setState({ count:this.props.data.goers })
+    console.log("card will mount");
+    this.setState({ count:this.props.data.count })
   }
+  // componentWillReceiveProps() {
+  //   console.log("receive props");
+  //   this.setState({ count:this.props.data.count })
+  // }
 
   going(location, user) {
     let { count, rsvp } = this.state//TODO ONLY IF AUTH
     if(_.includes(this.props.data.users, user)){
       console.log("user has rsvped", user);
       rsvp = true
-      //remove user from mongo
     }
     rsvp ? count-- : count++
     rsvp = !this.state.rsvp
     let increment = rsvp?1:-1
-    console.log(location, user, increment, count);//SEND TO MONGO
+    console.log(user, increment);//SEND TO MONGO
     const url = 'http://192.168.1.108:8081/api/POST/rsvp'
     $.ajax({
       type: "POST",
@@ -56,6 +60,7 @@ export default class PlaceCard extends React.Component {
       float: 'left', marginRight: '20px',
       width: '100px', height: '100px'
     }
+    let rsvpBtn = (this.state.rsvp)?'btn-danger':'btn-primary'
     return(
         <div class="panel panel-default placecard">
         <div class="panel-heading">{data.name} - {people} going
@@ -64,7 +69,7 @@ export default class PlaceCard extends React.Component {
         <div class="panel-body" style={{minHeight:'150px'}}>
           <img src={data.image_url?data.image_url:imgPlaceholder} style={imgStyle}/>
           <p> {data.snippet_text} </p>
-          <button class="btn btn-primary btn-sm" onClick={()=>this.twitterAuth(data.id)}>I'm in!</button>
+          <button class={"btn btn-sm "+rsvpBtn} onClick={()=>this.twitterAuth(data.id)}>{(this.state.rsvp)?"I'm out...":"I'm in!"}</button>
         </div>
       </div>
     )
