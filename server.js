@@ -13,11 +13,11 @@ const ObjectId = require('mongodb').ObjectID
 const session = require('express-session')
 
 const app = express()
-app.use(session({
+app.use(session({//NOTE not good for production, mem leak
   requestToken: '',
   requestTokenSecret: '',
   secret: 'somesupersecretstuff',
-  resave: false,//TODO CHECK IF NEEDS TO BE TRUE
+  resave: false,
   saveUninitialized: true
 }))
 
@@ -168,7 +168,7 @@ app.get('/api/auth/', (req, res) => {
   console.log(req.query.oauth_token)
   twitterAccess(req.query.oauth_verifier, (data) => {
     // res.send(JSON.stringify({ data }))
-    res.redirect('http://192.168.1.108:8080/')
+    res.redirect('http://yelpon.herokuapp.com')
   })
 })
 
