@@ -27,7 +27,7 @@ app.use(express.static(__dirname+'/public/'))
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.enable('trust proxy')
-env.load()
+// env.load()
 
 const yelp = new Yelp({
   consumer_key: process.env.CONSUMER_KEY,
