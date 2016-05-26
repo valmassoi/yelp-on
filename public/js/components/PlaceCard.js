@@ -60,11 +60,10 @@ export default class PlaceCard extends React.Component {
 
   render() {
     console.log("rerender");
-    // this.getCount()
 
     let { count, rsvp } = this.state
     let { place } = this.props
-    let imgPlaceholder = 'https://s3-media2.fl.yelpcdn.com/assets/srv0/seo_metaplace/e98ed5a1460f/assets/img/logos/yelp_og_image.png'
+    let imgPlaceholder = 'http://pictures.dealer.com/a/aamptsubarusoa/1874/e98ed5a1460fe077dc69afa261a00a5dx.jpg'
     let imgStyle = {
       float: 'left', marginRight: '20px',
       width: '100px', height: '100px'
