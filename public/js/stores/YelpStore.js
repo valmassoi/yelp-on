@@ -19,7 +19,7 @@ class YelpStore extends EventEmitter {
   }
 
   handleActions(action) {
-  console.log(action.type);
+  // console.log(action.type);
     switch(action.type) {
       case "GOT_PLACES": {
         this.places = action.places
@@ -28,7 +28,7 @@ class YelpStore extends EventEmitter {
       }
       case "GOT_GOERS": {
         this.goers = action.goers
-        this.emit("goers_change")
+        // this.emit("change")
         break
       }
     }
@@ -36,6 +36,6 @@ class YelpStore extends EventEmitter {
 }
 const yelpStore = new YelpStore
 dispatcher.register(yelpStore.handleActions.bind(yelpStore))
-// window.yelpStore = yelpStore//TODO for testing
-// window.dispatcher = dispatcher//TODO for testing
+window.yelpStore = yelpStore//TODO for testing
+window.dispatcher = dispatcher//TODO for testing
 export default yelpStore

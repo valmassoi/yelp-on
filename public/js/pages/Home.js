@@ -12,13 +12,12 @@ export default class Home extends React.Component {
     super(props);
     this.state = {
       places: [ ],
-      goers: [ ]
+      ongoers: [ ]
     }
   }
 
   componentWillMount() {
     YelpStore.on("change", this.yelp.bind(this))
-    YelpStore.on("goers_change", this.goers.bind(this))
     YelpAction.getGoers()
   }
 
@@ -26,32 +25,37 @@ export default class Home extends React.Component {
     YelpStore.removeAllListeners("change")
   }
 
-  goers() {
-    let goers = YelpStore.getGoers()
-    this.setState({ goers })
-  }
-
   yelp() {
-    let places = YelpStore.getPlaces()
-    this.setState({ places })
+    let places = YelpStore.getPlaces(),
+        ongoers = YelpStore.getGoers()
+    this.setState({ places, ongoers })
   }
 
   getCount(place) {
-    console.log("new count");
-    let newPlace = Object.assign({}, place)
-    newPlace.count = 0
-    newPlace.users = [ ]
-    this.state.goers.forEach((goers) =>
+    let { ongoers: goers } = this.state
+    let count = 0
+    goers.forEach((goer) =>
       {
-        if (_.includes(goers, place.id)){
-          newPlace.count = goers.count
-          newPlace.users = goers.users
-        }
+        if (goer.id==place.id)
+          count = goer.count
+        else
+          count = 0
       }
     )
-    return newPlace
+    return count
   }
+  getRSVP(place) {
+    let ongoers=this.state.ongoers,
+        user=localStorage.getItem('_yelpon_user'),
+        value=false
 
+    ongoers.forEach((goer) =>
+    {
+      if(goer.id==place.id&&_.includes(goer.users, user))
+        value=true
+    })
+    return value
+  }
   render() {
     return(
       <div>
@@ -59,10 +63,11 @@ export default class Home extends React.Component {
         <div class="container-fluid" style={{marginTop: '20px'}}>
           <div class="row">
           {this.state.places.map( (place, i) => {
-              let newPlace = this.getCount(place)
+              let count = this.getCount(place)
+              let rsvp=this.getRSVP(place)
                return (
                 <div class="col-sm-12 col-md-6" key={"placecard-div-"+i}>
-                  <PlaceCard data={newPlace} />
+                  <PlaceCard place={place} count={count} rsvp={rsvp}/>
                 </div>
                )
              })}

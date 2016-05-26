@@ -49,43 +49,34 @@ function changeGoing(location, userToken, increment, count) {
 
   mongo.connect(dbUrl, (err, db) => {
     if (err) throw err
-    let places = db.collection('places')
-    if(increment==1){//DRY WITH $cond ?
-      console.log("pushing");
-      places.update(
-        {'id': location},
-        {
-          $set: { count },
-          $push: { users: userToken },
-          $setOnInsert: {
-            id: location
-          }
+    let places = db.collection('places'),
+        queryObj = { 'id': location },
+        usersObj = { 'users': userToken },
+        updateObj = {
+            '$set': { count },
+            '$setOnInsert': queryObj
         },
-        {'upsert':true},
-        (err, data) => {
+        options = { 'upsert': true },
+        updateOperator = '$pull';
+
+    if (increment == 1) updateOperator = '$push';
+    updateObj[updateOperator] = usersObj;
+
+    places.update(queryObj, updateObj, options,
+      (err, data) => {
           if (err) throw err
-          db.close()
-        }
-      )
-    }
-    else{
-      console.log("pulling");
-      places.update(
-        {'id': location},
-        {
-          $set: { count },
-          $pull: { users: userToken },
-          $setOnInsert: {
-            id: location
-          }
-        },
-        {'upsert':true},
-        (err, data) => {
-          if (err) throw err
-          db.close()
-        }
-      )
-    }
+          console.log(updateOperator);
+          logme(location, db, places)
+          // db.close();
+      }
+    )
+  })
+}
+
+function logme(location, db, places) {
+  places.find({'id':location}).toArray( (err, results) => {//for log
+    console.log(results)
+    db.close();
   })
 }
 

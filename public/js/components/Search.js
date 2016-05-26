@@ -13,6 +13,7 @@ export default class Search extends React.Component {
   }
 
   componentWillMount() {
+    // YelpAction.getGoers()
     let term=localStorage.getItem('_yelpon_term'),
         location=localStorage.getItem('_yelpon_location')
     if(location) {
