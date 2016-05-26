@@ -48,7 +48,7 @@
     "yelp": "^1.0.1"
   },
   "engines": {
-    "node": "4.4.1"
+    "node": "v6.2.0"
   },
   "devDependencies": {
     "css-loader": "^0.23.1",
