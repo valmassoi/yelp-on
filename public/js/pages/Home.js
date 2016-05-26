@@ -38,8 +38,6 @@ export default class Home extends React.Component {
       {
         if (goer.id==place.id)
           count = goer.count
-        // else
-        //   count = 0
       }
     )
     return count

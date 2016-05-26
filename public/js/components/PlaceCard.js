@@ -23,7 +23,7 @@ export default class PlaceCard extends React.Component {
   }
 
   twitterAuth(location) {//if twitter location in storage- skip
-    let url = 'http://192.168.1.108:8081/api/GET/twitterauth'//TODO change url
+    let url = '/api/GET/twitterauth'//TODO change url http://192.168.1.108:8081
     $.getJSON(url, (data) => {//TODO MOVE TO ACTOIN, send location too?
       if(data.requestToken) {
         this.going(location, data.requestToken)
@@ -48,7 +48,7 @@ export default class PlaceCard extends React.Component {
     console.log(users, increment)
     console.log(rsvp);
     this.setState({ users, count, rsvp  })
-    const url = 'http://192.168.1.108:8081/api/POST/rsvp'
+    const url = '/api/POST/rsvp' //http://192.168.1.108:8081
     $.ajax({
       type: "POST",
       url,

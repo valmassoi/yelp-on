@@ -95,7 +95,7 @@ function getGoers(callback) {
 const twitter = new twitterAPI({
 	consumerKey: process.env.OAUTH_CONSUMER_KEY,
 	consumerSecret: process.env.OAUTH_CONSUMER_SECRET,
-	callback: 'http://192.168.1.108:8081/api/auth/',
+	callback: 'http://yelpon.herokuapp.com/api/auth/',//http://192.168.1.108:8081
   x_auth_access_type: 'read'
 })
 
