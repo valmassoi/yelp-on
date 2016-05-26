@@ -186,6 +186,11 @@ app.get('/api/GET/goers', (req, res) => {
   })
 })
 
+app.get('*', (req, res) => {
+  res.writeHead(200, { 'Content-Type': 'text/plain' })
+  res.end('404!')
+})
+
 const port = process.env.PORT || 8081
 http.createServer(app).listen(port)
 console.log('Server Running on port: ' + port)
