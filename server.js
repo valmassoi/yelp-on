@@ -23,6 +23,7 @@ app.use(session({
 
 const dbUrl = process.env.MONGODB_URI || 'mongodb://localhost:27018/data'
 
+app.use(express.static(__dirname+'/public/'))
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.enable('trust proxy')
