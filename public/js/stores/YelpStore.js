@@ -1,6 +1,4 @@
 import { EventEmitter } from 'events'
-import $ from 'jquery'
-
 import dispatcher from '../dispatcher'
 
 class YelpStore extends EventEmitter {
@@ -19,16 +17,17 @@ class YelpStore extends EventEmitter {
   }
 
   handleActions(action) {
-    switch(action.type) {
-      case "GOT_PLACES": {
+    switch (action.type) {
+      case 'GOT_PLACES': {
         this.places = action.places
-        this.emit("change")
+        this.emit('change')
         break
       }
-      case "GOT_GOERS": {
+      case 'GOT_GOERS': {
         this.goers = action.goers
         break
       }
+      default :
     }
   }
 }

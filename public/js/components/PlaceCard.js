@@ -1,8 +1,6 @@
-import React from "react"
-import { IndexLink, Link } from "react-router"
+import React from 'react'
 import _ from 'lodash'
-import YelpStore from '../stores/YelpStore'
-import $ from 'jquery'//TODO MOVE TO ACTION
+import $ from 'jquery'
 
 export default class PlaceCard extends React.Component {
   constructor(props) {
@@ -10,26 +8,25 @@ export default class PlaceCard extends React.Component {
     this.state = {
       count: props.count,
       rsvp: props.rsvp,
-      users: []
+      users: [],
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("new props");
     this.setState({
       count: nextProps.count,
-      rsvp: nextProps.rsvp
-    });
+      rsvp: nextProps.rsvp,
+    })
   }
 
-  twitterAuth(location) {//if twitter location in storage- skip
-    let url = '/api/GET/twitterauth'//TODO change url http://192.168.1.108:8081
-    $.getJSON(url, (data) => {//TODO MOVE TO ACTOIN, send location too?
-      if(data.requestToken) {
+  twitterAuth(location) {
+    const url = '/api/GET/twitterauth'
+    $.getJSON(url, (data) => {
+      if (data.requestToken) {
         this.going(location, data.requestToken)
         localStorage.setItem('_yelpon_user', data.requestToken)
       }
-      if(data.tokenUrl)
+      if (data.tokenUrl)
         window.location.href = data.tokenUrl
     })
   }
@@ -37,48 +34,50 @@ export default class PlaceCard extends React.Component {
 
   going(location, user) {
     let { count, rsvp, users } = this.state
-    if(rsvp==true)
+    if (rsvp === true)
       _.pullAll(users, user)
     else
       users.push(user)
     rsvp = !rsvp
     rsvp ? count++ : count--
-    // rsvp = !this.state.rsvp
-    let increment = rsvp?1:-1
-    console.log(users, increment)
-    console.log(rsvp);
-    this.setState({ users, count, rsvp  })
-    const url = '/api/POST/rsvp' //http://192.168.1.108:8081
+    let increment = rsvp ? 1 : -1
+
+    this.setState({ users, count, rsvp })
+    const url = '/api/POST/rsvp'
     $.ajax({
-      type: "POST",
+      type: 'POST',
       url,
       data: { location, user, increment, count },
       // success: (result) => this.setState({ count, rsvp }),
-      dataType: "json"
+      dataType: 'json',
     })
   }
 
   render() {
-    console.log("rerender");
-
     let { count, rsvp } = this.state
     let { place } = this.props
-    let imgPlaceholder = 'http://pictures.dealer.com/a/aamptsubarusoa/1874/e98ed5a1460fe077dc69afa261a00a5dx.jpg'
+    const imgPlaceholder = 'http://pictures.dealer.com/a/aamptsubarusoa/1874/e98ed5a1460fe077dc69afa261a00a5dx.jpg'
     let imgStyle = {
       float: 'left', marginRight: '20px',
-      width: '100px', height: '100px'
+      width: '100px', height: '100px',
     }
-    let rsvpBtn = (rsvp)?'btn-danger':'btn-primary'
-    return(
-        <div class="panel panel-default placecard">
+    let rsvpBtn = (rsvp) ? 'btn-danger' : 'btn-primary'
+    return (
+      <div class="panel panel-default placecard">
         <div class="panel-heading">
           {place.name} - {count} going
-          <div style={{float:'right'}}>{place.rating}</div>
+          <div style={{ float: 'right' }}>{place.rating}</div>
         </div>
-        <div class="panel-body" style={{minHeight:'150px'}}>
-          <img src={place.image_url?place.image_url:imgPlaceholder} style={imgStyle}/>
+        <div class="panel-body" style={{ minHeight: '150px' }}>
+          <img
+            alt="yelp place"
+            src={place.image_url ? place.image_url : imgPlaceholder}
+            style={imgStyle}
+          />
           <p> {place.snippet_text} </p>
-          <button class={"btn btn-sm "+rsvpBtn} onClick={()=>this.twitterAuth(place.id)}>{(this.state.rsvp)?"I'm out...":"I'm in!"}</button>
+          <button class={`btn btn-sm ${rsvpBtn}`} onClick={() => this.twitterAuth(place.id)}>
+            {(this.state.rsvp) ? "I'm out..." : "I'm in!"}
+          </button>
         </div>
       </div>
     )

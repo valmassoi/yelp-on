@@ -1,7 +1,4 @@
-import React from "react"
-import { IndexLink, Link } from "react-router"
-
-// import createHashHistory from 'history/lib/createHashHistory'
+import React from 'react'
 
 export default class Nav extends React.Component {
   constructor() {
@@ -11,17 +8,8 @@ export default class Nav extends React.Component {
     }
   }
 
-  componentWillMount() {
-
-  }
-
-  componentWillUnmount() {
-
-  }
-
-  render(){
-
-    return(
+  render() {
+    return (
       <h1> Yelp On </h1>
     )
   }
